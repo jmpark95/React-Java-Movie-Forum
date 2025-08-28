@@ -24,5 +24,23 @@ public class MovieController {
         List<MovieDTO> movies = tmdbService.getNowPlayingMovies();
         return ResponseEntity.ok(movies);
     }
+    
+    @GetMapping("/popular")
+    public ResponseEntity<List<MovieDTO>> getPopularMovies() {
+        List<MovieDTO> movies = tmdbService.getPopularMovies();
+        return ResponseEntity.ok(movies);
+    }
+    
+    @GetMapping("/toprated")
+    public ResponseEntity<List<MovieDTO>> getTopRatedMovies() {
+        List<MovieDTO> movies = tmdbService.getTopRatedMovies();
+        return ResponseEntity.ok(movies);
+    }
+    
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<MovieDTO>> getUpcomingMovies() {
+        List<MovieDTO> movies = tmdbService.getUpcomingMovies();
+        return ResponseEntity.ok(movies);
+    }
 
 }

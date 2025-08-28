@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,14 +28,50 @@ public class MovieControllerTest {
 	@MockitoBean
 	private TmdbService tmdbService;
 	
+	private MovieDTO testMovie;
+	
+    @BeforeEach
+    void setUp() {
+        testMovie = new MovieDTO();
+        testMovie.setId(1L);
+        testMovie.setTitle("Inception");
+    }
+	
 	@Test
-	void getNowPlayingShouldReturnList() throws Exception {
-		MovieDTO movie = new MovieDTO();
-        movie.setTitle("Inception");
-        
-		when(tmdbService.getNowPlayingMovies()).thenReturn(List.of(movie));
+	void getNowPlayingShouldReturnList() throws Exception {       
+		when(tmdbService.getNowPlayingMovies()).thenReturn(List.of(testMovie));
 		
         mockMvc.perform(get("/api/movies/nowplaying")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("Inception"));
+	}
+	
+	@Test
+	void getPopularShouldReturnList() throws Exception {     
+		when(tmdbService.getPopularMovies()).thenReturn(List.of(testMovie));
+		
+        mockMvc.perform(get("/api/movies/popular")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("Inception"));
+	}
+	
+	@Test
+	void getTopRatedShouldReturnList() throws Exception {     
+		when(tmdbService.getTopRatedMovies()).thenReturn(List.of(testMovie));
+		
+        mockMvc.perform(get("/api/movies/toprated")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("Inception"));
+	}
+	
+	@Test
+	void getUpcomingShouldReturnList() throws Exception {     
+		when(tmdbService.getUpcomingMovies()).thenReturn(List.of(testMovie));
+		
+        mockMvc.perform(get("/api/movies/upcoming")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("Inception"));

@@ -16,17 +16,39 @@ public class TmdbService {
 	public TmdbService(WebClient tmdbWebClient) {
 		this.tmdbWebClient = tmdbWebClient;
 	}
+	
+	//Centralized method for hitting TMDB API
+    private List<MovieDTO> fetchMovies(String uri) {
+        return tmdbWebClient
+                .get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(NowPlaying.class)
+                .block()
+                .getResults();
+    }
+    
+    
 
-	public List<MovieDTO> getNowPlayingMovies() {
-		return tmdbWebClient
-				.get()
-				.uri("/movie/now_playing?language=en-US&page=1")
-				.retrieve()
-				.bodyToMono(NowPlaying.class)
-				.block()
-				.getResults();
-	}
+    public List<MovieDTO> getNowPlayingMovies() {
+        return fetchMovies("/movie/now_playing?language=en-US&page=1");
+    }
+
+    public List<MovieDTO> getPopularMovies() {
+        return fetchMovies("/movie/popular?language=en-US&page=1");
+    }
+
+    public List<MovieDTO> getTopRatedMovies() {
+        return fetchMovies("/movie/top_rated?language=en-US&page=1");
+    } 
+    
+    public List<MovieDTO> getUpcomingMovies() {
+        return fetchMovies("/movie/upcoming?language=en-US&page=1");
+    } 
+
+	
+	
+	
 
   
 }
-
