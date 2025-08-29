@@ -5,6 +5,7 @@ function NowPlayingMovies() {
    const { data, isPending, isError } = useQuery({
       queryKey: ["nowPlayingMovies"],
       queryFn: MovieAPI.getNowPlaying,
+      staleTime: 1 * 60 * 60 * 1000, //1 hour
    });
 
    if (isPending) return <p>Loading...</p>;
