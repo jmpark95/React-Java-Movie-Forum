@@ -1,9 +1,9 @@
 import { Link } from "react-router";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { Tab, TabGroup, TabList } from "@headlessui/react";
 
 function Navbar() {
    return (
-      <TabGroup className="flex">
+      <TabGroup className="flex mb-6">
          <TabList className="flex">
             <Tab
                as={Link}
