@@ -6,6 +6,7 @@ function Popular() {
       queryKey: ["popularMovies"],
       queryFn: MovieAPI.getPopular,
       staleTime: 1 * 60 * 60 * 1000, //1 hour
+      gcTime: 1 * 60 * 60 * 1000,
    });
 
    if (isPending) return <p>Loading...</p>;

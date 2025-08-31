@@ -6,6 +6,7 @@ function Upcoming() {
       queryKey: ["upcomingMovies"],
       queryFn: MovieAPI.getUpcoming,
       staleTime: 1 * 60 * 60 * 1000, //1 hour
+      gcTime: 1 * 60 * 60 * 1000,
    });
 
    if (isPending) return <p>Loading...</p>;

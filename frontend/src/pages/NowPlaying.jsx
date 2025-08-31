@@ -6,6 +6,7 @@ function NowPlayingMovies() {
       queryKey: ["nowPlayingMovies"],
       queryFn: MovieAPI.getNowPlaying,
       staleTime: 1 * 60 * 60 * 1000, //1 hour
+      gcTime: 1 * 60 * 60 * 1000,
    });
 
    if (isPending) return <p>Loading...</p>;

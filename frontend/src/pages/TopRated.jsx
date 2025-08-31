@@ -6,6 +6,7 @@ function TopRated() {
       queryKey: ["topRatedMovies"],
       queryFn: MovieAPI.getTopRated,
       staleTime: 1 * 60 * 60 * 1000, //1 hour
+      gcTime: 1 * 60 * 60 * 1000,
    });
 
    if (isPending) return <p>Loading...</p>;
