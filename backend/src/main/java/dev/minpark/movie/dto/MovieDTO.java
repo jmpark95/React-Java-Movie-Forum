@@ -16,6 +16,9 @@ public class MovieDTO {
     @JsonProperty("poster_path")
     private String posterPath;
     
+    @JsonProperty("backdrop_path")
+    private String backdropPath;
+    
     
     
 	public Long getId() {
