@@ -1,13 +1,25 @@
-import { Route, Routes } from "react-router";
+import { Link, Route, Routes } from "react-router";
 import NowPlaying from "./pages/NowPlaying";
 import Upcoming from "./pages/Upcoming";
 import Popular from "./pages/Popular";
 import TopRated from "./pages/TopRated";
 import Navbar from "./components/Navbar";
 import { useState } from "react";
+import Login from "./pages/Login";
+import { UserAPI } from "./api/private/userapi";
+import RightCornerAccountDetails from "./components/RightCornerAccountDetails";
 
 function App() {
-   const [user, setUser] = useState({ name: "Min" });
+   const [user, setUser] = useState(null);
+
+   async function testProtected() {
+      try {
+         const response = await UserAPI.getWatchList();
+         console.log(response);
+      } catch {
+         setUser(null);
+      }
+   }
 
    return (
       <>
@@ -20,16 +32,21 @@ function App() {
                <input type="text" placeholder="Search..." className="px-2 py-1 rounded border border-gray-400 w-120" />
             </div>
 
-            <div>{user ? <div>Hi {user.name}</div> : <button>Login</button>}</div>
+            <RightCornerAccountDetails user={user} setUser={setUser} />
          </div>
 
          <Navbar />
 
+         <button onClick={testProtected} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Test Protected POST
+         </button>
+
          <Routes>
-            <Route path="/" element={<NowPlaying />} />
-            <Route path="/popular" element={<Popular />} />
-            <Route path="/top-rated" element={<TopRated />} />
-            <Route path="/upcoming" element={<Upcoming />} />
+            <Route path="/" element={<NowPlaying user={user} />} />
+            <Route path="/popular" element={<Popular user={user} />} />
+            <Route path="/top-rated" element={<TopRated user={user} />} />
+            <Route path="/upcoming" element={<Upcoming user={user} />} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
          </Routes>
       </>
    );

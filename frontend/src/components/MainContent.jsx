@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import MovieCard from "./MovieCard";
 
-function MainContent({ fetchFunction, categoryName }) {
+function MainContent({ fetchFunction, categoryName, user }) {
    const [selectedMovie, setSelectedMovie] = useState(null);
 
    const { data, isPending, isError } = useQuery({
@@ -43,12 +43,20 @@ function MainContent({ fetchFunction, categoryName }) {
                      <p>Release date: {selectedMovie.release_date}</p>
                      <p>Rating: {selectedMovie.vote_average}</p>
                      <div className="flex gap-4 justify-end">
-                        <button
-                           onClick={() => setSelectedMovie(null)}
-                           className="px-3 py-1 bg-gray-600 rounded cursor-pointer"
-                        >
-                           Login or Signup to add to your watchlist or favourites
-                        </button>
+                        {user ? (
+                           <>
+                              <button className="px-3 py-1 bg-gray-600 rounded cursor-pointer">
+                                 Add to ur watchlist
+                              </button>
+                              <button className="px-3 py-1 bg-gray-600 rounded cursor-pointer">
+                                 Add to ur favourites
+                              </button>
+                           </>
+                        ) : (
+                           <button className="px-3 py-1 bg-gray-600 rounded cursor-pointer">
+                              Login or Signup to add to your watchlist or favourites
+                           </button>
+                        )}
                      </div>
                   </DialogPanel>
                </div>

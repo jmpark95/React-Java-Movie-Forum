@@ -1,8 +1,8 @@
-import { MovieAPI } from "../api/movieapi";
+import { MovieAPI } from "../api/public/movieapi";
 import MainContent from "../components/MainContent";
 
-function Popular() {
-   return <MainContent fetchFunction={MovieAPI.getPopular} categoryName="popularMovies" />;
+function Popular({ user }) {
+   return <MainContent fetchFunction={MovieAPI.getPopular} categoryName="popularMovies" user={user} />;
 }
 
 export default Popular;
