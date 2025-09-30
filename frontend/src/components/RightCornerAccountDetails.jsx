@@ -4,8 +4,13 @@ import { logout } from "../api/public/authapi";
 
 function RightCornerAccountDetails({ user, setUser }) {
    async function handleLogout() {
-      await logout();
-      setUser(null);
+      try {
+         await logout();
+         setUser(null);
+      } catch (error) {
+         setUser(null);
+         console.error("Something went wrong:" + error);
+      }
    }
 
    return (

@@ -1,13 +1,15 @@
-import { Link, Route, Routes } from "react-router";
+import { useState } from "react";
+import { Route, Routes } from "react-router";
+
 import NowPlaying from "./pages/NowPlaying";
 import Upcoming from "./pages/Upcoming";
 import Popular from "./pages/Popular";
 import TopRated from "./pages/TopRated";
 import Navbar from "./components/Navbar";
-import { useState } from "react";
 import Login from "./pages/Login";
-import { UserAPI } from "./api/private/userapi";
 import RightCornerAccountDetails from "./components/RightCornerAccountDetails";
+
+import { UserAPI } from "./api/private/userapi";
 
 function App() {
    const [user, setUser] = useState(null);

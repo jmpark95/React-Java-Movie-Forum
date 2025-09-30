@@ -19,8 +19,7 @@ public class JwtUtil {
     
     public JwtUtil(@Value("${jwt.secret}") String secretKey) {
         this.algorithm = Algorithm.HMAC256(secretKey);
-        this.verifier = JWT.require(algorithm)
-                .build();
+        this.verifier = JWT.require(algorithm).build();
     }
         
     public String generateToken(String username) {
@@ -40,8 +39,10 @@ public class JwtUtil {
 //    	    JWTVerifier verifier = JWT.require(algorithm)
 //    	    		.build();
     	        
-    	    DecodedJWT decodedJWT = verifier.verify(token);
+//    	    DecodedJWT decodedJWT = verifier.verify(token);
     	    
+    	    verifier.verify(token);
+
     	    return true;
     	} catch (JWTVerificationException exception){
     	    return false;

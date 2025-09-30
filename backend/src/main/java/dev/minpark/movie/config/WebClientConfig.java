@@ -13,7 +13,7 @@ public class WebClientConfig {
     private String apiKey;
 
     @Bean
-    public WebClient tmdbWebClient(WebClient.Builder builder) {
+    WebClient tmdbWebClient(WebClient.Builder builder) {
         return builder
                 .baseUrl("https://api.themoviedb.org/3")
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)

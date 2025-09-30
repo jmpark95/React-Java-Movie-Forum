@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.minpark.movie.entity.User;
 import dev.minpark.movie.service.AuthService;
-import jakarta.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -27,7 +26,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody User user) {
 		try {
             String jwt = authService.login(user.getUsername(), user.getPassword());
 
@@ -36,26 +35,32 @@ public class AuthController {
                     .path("/")
                     .maxAge(3600) //1hr
                     .build();
-
-            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
             
-            return ResponseEntity.ok(Map.of("username", user.getUsername()));
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(Map.of("username", user.getUsername()));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 	
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(HttpServletResponse response) {
-	    ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
-	            .httpOnly(true)
-	            .path("/")
-	            .maxAge(0)
-	            .build();
+	public ResponseEntity<?> logout() {
+		try {
+			ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
+		            .httpOnly(true)
+		            .path("/")
+		            .maxAge(0)
+		            .build();
 
-	    response.addHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+		    return ResponseEntity.ok()
+		    		.header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+		    		.body(Map.of("logout", "successful"));
+			
+		} catch(RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 
-	    return ResponseEntity.ok(Map.of("logout", "successful"));
 	}
     
 
